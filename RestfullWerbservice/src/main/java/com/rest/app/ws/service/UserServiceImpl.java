@@ -8,7 +8,6 @@ import com.rest.app.ws.UserRepository;
 import com.rest.app.ws.io.entity.UserEntity;
 import com.rest.app.ws.shared.dto.UserDto;
 
-
 @Service
 public class UserServiceImpl implements UserService {
 
