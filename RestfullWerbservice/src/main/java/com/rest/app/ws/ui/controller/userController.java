@@ -4,6 +4,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,10 +36,20 @@ public class userController {
 	 */
 	@Autowired 
 	UserService userService;
-	@GetMapping
-	public String getuser() {
-		return "hello get";
+	
+	/*
+	 * 
+	 */
+	@GetMapping(path="/{id}")
+	public UserRest getuser(@PathVariable String id ) {
+		UserRest result = new UserRest();
+		UserDto userDto = userService.getUserById(id);
+		// mapping between two layers
+		BeanUtils.copyProperties(userDto,result);
+		
+		return result;
 	}
+	
 	// if you want to creat a new user you should use http post method 
 	@PostMapping
 	public UserRest creatuser(@RequestBody userDetailsRequestModel requestUserDetails) {
