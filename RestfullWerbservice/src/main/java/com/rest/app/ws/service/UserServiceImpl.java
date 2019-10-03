@@ -1,15 +1,18 @@
 package com.rest.app.ws.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.rest.app.ws.shared.Utils;
 
-import com.rest.app.ws.UserRepository;
 import com.rest.app.ws.io.entity.UserEntity;
+import com.rest.app.ws.io.repositories.UserRepository;
+import com.rest.app.ws.shared.Utils;
 import com.rest.app.ws.shared.dto.UserDto;
 
 @Service
@@ -18,9 +21,10 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRepository userRepo;
 	@Autowired
-	Utils utils ;
+	Utils utils;
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
+
 	@Override
 	public UserDto creartUser(UserDto userDto) {
 		UserEntity userEntity = new UserEntity();
@@ -32,13 +36,30 @@ public class UserServiceImpl implements UserService {
 		UserEntity savedUser = userRepo.save(userEntity);
 		UserDto result = new UserDto();
 		BeanUtils.copyProperties(savedUser, result);
-		
-		return result ;
+
+		return result;
 	}
+
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		UserEntity userEntity = userRepo.findByEmail(email);
+		if (userEntity == null)
+			throw new UsernameNotFoundException(email);
+
+		return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(), new ArrayList<>());
+	}
+
+	@Override
+	public UserDto getUser(String email) {
+		UserEntity userEntity = userRepo.findByEmail(email);
+
+		if (userEntity == null)
+			throw new UsernameNotFoundException(email);
+
+		UserDto returnValue = new UserDto();
+		BeanUtils.copyProperties(userEntity, returnValue);
+
+		return returnValue;
 	}
 
 }
