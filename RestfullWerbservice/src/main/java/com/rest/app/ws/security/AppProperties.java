@@ -1,4 +1,4 @@
-package com.rest.app.ws.io.entity.security;
+package com.rest.app.ws.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;

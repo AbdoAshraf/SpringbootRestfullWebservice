@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.rest.app.ws.io.entity.security.AppProperties;
+import com.rest.app.ws.security.AppProperties;
 
 @SpringBootApplication
 public class RestfullWerbserviceApplication {

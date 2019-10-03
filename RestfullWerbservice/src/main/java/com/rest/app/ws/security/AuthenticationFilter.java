@@ -1,4 +1,4 @@
-package com.rest.app.ws.io.entity.security;
+package com.rest.app.ws.security;
 
 import java.io.IOException;
 import java.sql.Date;

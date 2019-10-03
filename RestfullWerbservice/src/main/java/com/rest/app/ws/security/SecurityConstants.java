@@ -1,4 +1,4 @@
-package com.rest.app.ws.io.entity.security;
+package com.rest.app.ws.security;
 
 import com.rest.app.ws.SpringApplicationContext;
 

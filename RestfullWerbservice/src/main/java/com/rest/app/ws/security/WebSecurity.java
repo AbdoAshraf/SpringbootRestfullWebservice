@@ -1,4 +1,4 @@
-package com.rest.app.ws.io.entity.security;
+package com.rest.app.ws.security;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

@@ -1,4 +1,4 @@
-package com.rest.app.ws.io.entity.security;
+package com.rest.app.ws.security;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import com.rest.app.ws.io.entity.security.SecurityConstants;
+import com.rest.app.ws.security.SecurityConstants;
 
 import io.jsonwebtoken.Jwts;
 
