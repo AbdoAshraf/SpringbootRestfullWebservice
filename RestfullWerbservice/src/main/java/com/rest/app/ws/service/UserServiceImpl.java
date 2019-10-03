@@ -9,10 +9,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.rest.app.ws.shared.Utils;
 
-import com.rest.app.ws.UserRepository;
 import com.rest.app.ws.io.entity.UserEntity;
+import com.rest.app.ws.io.repositories.UserRepository;
+import com.rest.app.ws.shared.Utils;
 import com.rest.app.ws.shared.dto.UserDto;
 
 @Service
