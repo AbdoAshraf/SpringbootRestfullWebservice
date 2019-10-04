@@ -2,8 +2,10 @@ package com.rest.app.ws.ui.controller;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,14 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rest.app.ws.service.UserService;
 import com.rest.app.ws.shared.dto.UserDto;
 import com.rest.app.ws.ui.model.request.userDetailsRequestModel;
+import com.rest.app.ws.ui.model.response.OperationStatusModel;
 import com.rest.app.ws.ui.model.response.UserRest;
 
 /******************************************************************
- * @author abdulrahman
- * This is the use controller class in which we should interface
- * with the external world:
- * her is an implementation of rest api-s for ( getting updating 
- * deleting users)
+ * @author abdulrahman This is the use controller class in which we should
+ *         interface with the external world: her is an implementation of rest
+ *         api-s for ( getting updating deleting users)
  ******************************************************************/
 
 @RestController
@@ -28,51 +29,81 @@ import com.rest.app.ws.ui.model.response.UserRest;
 @RequestMapping("/users")
 public class userController {
 	/*
-	 * first we inject the service layer in order to communicate
-	 * with our database.
-	 * Hint: the ui layer should not interact directly with 
-	 * the database 
+	 * first we inject the service layer in order to communicate with our database.
+	 * Hint: the ui layer should not interact directly with the database
 	 */
-	@Autowired 
+	@Autowired
 	UserService userService;
-	@GetMapping
-	public String getuser() {
-		return "hello get";
+
+	@GetMapping(path = "/{id}", 
+			    produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	public UserRest getuser(@PathVariable String id) {
+		UserRest result = new UserRest();
+		UserDto userDto = userService.getUserById(id);
+		// mapping between two layers
+		BeanUtils.copyProperties(userDto, result);
+
+		return result;
 	}
-	// if you want to creat a new user you should use http post method 
-	@PostMapping
+
+	// if you want to creat a new user you should use http post method
+	@PostMapping(
+			produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
+			consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+
 	public UserRest creatuser(@RequestBody userDetailsRequestModel requestUserDetails) {
 		/*
-		 * the result should be a result rest class to hide internal implementations  
+		 * the result should be a result rest class to hide internal implementations
 		 * from user for both security and business concerns
 		 */
 		UserRest result = new UserRest();
 		/*
-		 * user dto ( data transfer object) to enable transferring data
-		 * between layers 
+		 * user dto ( data transfer object) to enable transferring data between layers
 		 */
 		UserDto userDto = new UserDto();
 		// mapping between two layers
-		BeanUtils.copyProperties(requestUserDetails,userDto);
+		BeanUtils.copyProperties(requestUserDetails, userDto);
 		UserDto createdUser = new UserDto();
 		// calling the service layer for creating a new user
 		createdUser = userService.creartUser(userDto);
-		// mapping again 
+		// mapping again
 		BeanUtils.copyProperties(createdUser, result);
-		//finally we did it :)
+		// finally we did it :)
 		return result;
 	}
-	
-	@PutMapping
-	public String updateUser() {
-		return "hello put";
-	}
-	
-	@DeleteMapping 
-	public String deleteUser() {
-		return "hello delete";
-	}
-	
-	
 
+	
+	
+	@PutMapping(path = "/{id}", 
+			    produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE }, 
+			    consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
+	
+	public UserRest updateUser(@RequestBody userDetailsRequestModel requestUserDetails, @PathVariable String id) {
+		UserRest result = new UserRest();
+		/*
+		 * user dto ( data transfer object) to enable transferring data between layers
+		 */
+		UserDto userDto = new UserDto();
+		// mapping between two layers
+		BeanUtils.copyProperties(requestUserDetails, userDto);
+		UserDto updatedUser = new UserDto();
+		// calling the service layer for creating a new user
+		updatedUser = userService.updateUser(userDto , id);
+		// mapping again
+		BeanUtils.copyProperties(updatedUser,result);
+		// finally we did it :)
+		return result;
+	}
+
+	@DeleteMapping(path = "/{id}", 
+			       produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	public OperationStatusModel deleteUser(@PathVariable String id) {
+		OperationStatusModel result = new OperationStatusModel();
+		result.setOperationName("DELETE");
+
+		userService.deleteUser(id);
+
+		result.setOperationResult("SUCSESS");
+		return result;
+	}
 }
