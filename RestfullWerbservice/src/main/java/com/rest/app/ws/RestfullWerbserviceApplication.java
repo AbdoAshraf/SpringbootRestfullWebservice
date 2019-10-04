@@ -29,6 +29,5 @@ public class RestfullWerbserviceApplication {
 	{
 		return new AppProperties();
 	}
-	
 
 }
