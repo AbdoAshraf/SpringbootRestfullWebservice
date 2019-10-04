@@ -34,10 +34,8 @@ public class userController {
 	@Autowired
 	UserService userService;
 
-	/*
-	 * 
-	 */
-	@GetMapping(path = "/{id}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	@GetMapping(path = "/{id}", 
+			    produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public UserRest getuser(@PathVariable String id) {
 		UserRest result = new UserRest();
 		UserDto userDto = userService.getUserById(id);
@@ -73,9 +71,27 @@ public class userController {
 		return result;
 	}
 
-	@PutMapping
-	public String updateUser() {
-		return "hello put";
+	
+	
+	@PutMapping(path = "/{id}", 
+			    produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE }, 
+			    consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
+	
+	public UserRest updateUser(@RequestBody userDetailsRequestModel requestUserDetails, @PathVariable String id) {
+		UserRest result = new UserRest();
+		/*
+		 * user dto ( data transfer object) to enable transferring data between layers
+		 */
+		UserDto userDto = new UserDto();
+		// mapping between two layers
+		BeanUtils.copyProperties(requestUserDetails, userDto);
+		UserDto updatedUser = new UserDto();
+		// calling the service layer for creating a new user
+		updatedUser = userService.updateUser(userDto , id);
+		// mapping again
+		BeanUtils.copyProperties(updatedUser,result);
+		// finally we did it :)
+		return result;
 	}
 
 	@DeleteMapping
