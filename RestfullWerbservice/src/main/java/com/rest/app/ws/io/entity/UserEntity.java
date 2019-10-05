@@ -1,17 +1,12 @@
 package com.rest.app.ws.io.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.rest.app.ws.ui.model.request.AddressRequestModel;
 
 @Entity
 @Table(name = "users")
@@ -44,20 +39,6 @@ public class UserEntity implements Serializable {
 
 	@Column(nullable = false)
 	private Boolean emailVerificationStatus = false;
-	
-
-	@OneToMany(mappedBy="userDetails", cascade=CascadeType.ALL)
-	List<AddressRequestModel> Adresses  ;
-	
-	
-	public List<AddressRequestModel> getAdresses() {
-		return Adresses;
-	}
-
-	public void setAdresses(List<AddressRequestModel> adresses) {
-		Adresses = adresses;
-	}
-
 
 	public long getId() {
 		return id;

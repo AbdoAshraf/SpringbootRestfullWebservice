@@ -1,8 +1,6 @@
 package com.rest.app.ws.ui.model.response;
 
-import org.springframework.hateoas.ResourceSupport;
-
-public class UserRest extends ResourceSupport{
+public class UserRest {
 	private String userId;
 	private String firstName;
 	private String lastName;

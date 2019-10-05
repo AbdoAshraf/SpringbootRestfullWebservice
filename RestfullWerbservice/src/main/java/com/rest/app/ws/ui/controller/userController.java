@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rest.app.ws.service.AddressService;
 import com.rest.app.ws.service.UserService;
 import com.rest.app.ws.shared.dto.UserDto;
 import com.rest.app.ws.ui.model.request.userDetailsRequestModel;
@@ -35,9 +34,6 @@ public class userController {
 	 */
 	@Autowired
 	UserService userService;
-	
-	@Autowired
-	AddressService addressService;
 
 	@GetMapping(path = "/{id}", 
 			    produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
@@ -49,6 +45,7 @@ public class userController {
 
 		return result;
 	}
+
 	// if you want to creat a new user you should use http post method
 	@PostMapping(
 			produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
