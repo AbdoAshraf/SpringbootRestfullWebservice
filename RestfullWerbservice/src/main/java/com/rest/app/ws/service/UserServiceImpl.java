@@ -1,23 +1,5 @@
 package com.rest.app.ws.service;
 
-<<<<<<< master
-=======
-import java.util.ArrayList;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import com.rest.app.ws.io.entity.UserEntity;
-import com.rest.app.ws.io.repositories.UserRepository;
-import com.rest.app.ws.shared.Utils;
-import com.rest.app.ws.shared.dto.UserDto;
-
->>>>>>> b9c640f deploy the application to tomcat
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -37,7 +19,6 @@ public class UserServiceImpl implements UserService {
     AmazonSES amazonSES;
  
 	@Override
-<<<<<<< master
 	public UserDto createUser(UserDto user) {
 
 		if (userRepository.findByEmail(user.getEmail()) != null)
@@ -55,13 +36,6 @@ public class UserServiceImpl implements UserService {
 		ModelMapper modelMapper = new ModelMapper();
 		UserEntity userEntity = modelMapper.map(user, UserEntity.class);
 
-=======
-	public UserDto creartUser(UserDto userDto) {
-		UserEntity userEntity = new UserEntity();
-		BeanUtils.copyProperties(userDto, userEntity);
-		userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
-		userEntity.setEmailVerificationStatus(false);
->>>>>>> b9c640f deploy the application to tomcat
 		String publicUserId = utils.generateUserId(30);
 		userEntity.setUserId(publicUserId);
 		userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
