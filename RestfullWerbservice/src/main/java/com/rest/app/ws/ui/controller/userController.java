@@ -3,7 +3,6 @@ package com.rest.app.ws.ui.controller;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,12 +34,7 @@ public class userController {
 	 */
 	@Autowired
 	UserService userService;
-/*
- * should return response object for all controllers 
- * why?
- * to simplify exc 
- * to add more customization  
- */
+
 	@GetMapping(path = "/{id}", 
 			    produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public UserRest getuser(@PathVariable String id) {
@@ -48,8 +42,8 @@ public class userController {
 		UserDto userDto = userService.getUserById(id);
 		// mapping between two layers
 		BeanUtils.copyProperties(userDto, result);
+
 		return result;
-		//return result;
 	}
 
 	// if you want to creat a new user you should use http post method
