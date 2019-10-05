@@ -35,9 +35,12 @@ public class userController {
 	 */
 	@Autowired
 	UserService userService;
+<<<<<<< master
 	
 	@Autowired
 	AddressService addressService;
+=======
+>>>>>>> b9c640f deploy the application to tomcat
 
 	@GetMapping(path = "/{id}", 
 			    produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
@@ -46,6 +49,12 @@ public class userController {
 		UserDto userDto = userService.getUserById(id);
 		// mapping between two layers
 		BeanUtils.copyProperties(userDto, result);
+<<<<<<< master
+=======
+
+		return result;
+	}
+>>>>>>> b9c640f deploy the application to tomcat
 
 		return result;
 	}
