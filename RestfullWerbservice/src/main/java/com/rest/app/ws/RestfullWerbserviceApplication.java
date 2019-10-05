@@ -2,6 +2,8 @@ package com.rest.app.ws;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -9,7 +11,11 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import com.rest.app.ws.security.AppProperties;
 
 @SpringBootApplication
-public class RestfullWerbserviceApplication {
+public class RestfullWerbserviceApplication extends SpringBootServletInitializer{
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(RestfullWerbserviceApplication.class);
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(RestfullWerbserviceApplication.class, args);

@@ -1,6 +1,7 @@
 package com.rest.app.ws.service;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
 		BeanUtils.copyProperties(userDto, userEntity);
 		userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
 		userEntity.setEmailVerificationStatus(false);
-		String publicUserId = utils.generateUserId(30);
+		String publicUserId = UUID.randomUUID().toString();
 		userEntity.setUserId(publicUserId);
 		UserEntity savedUser = userRepo.save(userEntity);
 		UserDto result = new UserDto();
