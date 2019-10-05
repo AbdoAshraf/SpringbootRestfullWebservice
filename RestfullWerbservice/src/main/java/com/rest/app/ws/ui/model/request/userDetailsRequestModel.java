@@ -1,10 +1,20 @@
 package com.rest.app.ws.ui.model.request;
 
+import java.util.List;
+
 public class userDetailsRequestModel {
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String password;
+     List<AddressRequestModel> Adresses  ;
+	public List<AddressRequestModel> getAdresses() {
+		return Adresses;
+	}
+	public void setAdresses(List<AddressRequestModel> adresses) {
+		Adresses = adresses;
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}
