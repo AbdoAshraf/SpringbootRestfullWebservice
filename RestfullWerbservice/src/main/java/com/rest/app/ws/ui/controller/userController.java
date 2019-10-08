@@ -1,5 +1,6 @@
 package com.rest.app.ws.ui.controller;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -60,12 +61,13 @@ public class userController {
 		/*
 		 * user dto ( data transfer object) to enable transferring data between layers
 		 */
-		UserDto userDto = new UserDto();
 		// mapping between two layers
-		BeanUtils.copyProperties(requestUserDetails, userDto);
-		UserDto createdUser = new UserDto();
+		//BeanUtils.copyProperties(requestUserDetails, userDto);
+		//UserDto createdUser = new UserDto();
+		UserDto userDto = new UserDto();
+		userDto = new ModelMapper().map(requestUserDetails, UserDto.class);
 		// calling the service layer for creating a new user
-		createdUser = userService.creartUser(userDto);
+		UserDto createdUser = userService.creartUser(userDto);
 		// mapping again
 		BeanUtils.copyProperties(createdUser, result);
 		// finally we did it :)

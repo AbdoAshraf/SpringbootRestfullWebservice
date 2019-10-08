@@ -2,6 +2,7 @@ package com.rest.app.ws.service;
 
 import java.util.ArrayList;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.rest.app.ws.io.entity.UserEntity;
 import com.rest.app.ws.io.repositories.UserRepository;
 import com.rest.app.ws.shared.Utils;
+import com.rest.app.ws.shared.dto.AddressDTO;
 import com.rest.app.ws.shared.dto.UserDto;
 
 @Service
@@ -28,15 +30,24 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto creartUser(UserDto userDto) {
 		UserEntity userEntity = new UserEntity();
-		BeanUtils.copyProperties(userDto, userEntity);
+		//BeanUtils.copyProperties(userDto, userEntity);
+		for(int i=0;i<userDto.getAddresses().size();i++)
+		{
+			AddressDTO addressDto = userDto.getAddresses().get(i);
+			addressDto.setUserDetails(userDto);
+			addressDto.setAddressId(utils.generateAddressId(30));
+			userDto.getAddresses().set(i, addressDto);
+		}
+		ModelMapper modelMapper = new ModelMapper();
+		userEntity=modelMapper.map(userDto,UserEntity.class);
 		userEntity.setEncryptedPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
 		userEntity.setEmailVerificationStatus(false);
 		String publicUserId = utils.generateUserId(30);
 		userEntity.setUserId(publicUserId);
 		UserEntity savedUser = userRepo.save(userEntity);
 		UserDto result = new UserDto();
-		BeanUtils.copyProperties(savedUser, result);
-
+		//BeanUtils.copyProperties(savedUser, result);
+		result=modelMapper.map(savedUser,UserDto.class);
 		return result;
 	}
 
